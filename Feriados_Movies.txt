@@ -1,0 +1,32 @@
+let
+    Source = Web.Page(Web.Contents("https://www.inf.ufrgs.br/~cabral/tabela_pascoa.html")),
+    Data0 = Source{0}[Data],
+    #"Promoted Headers" = Table.PromoteHeaders(Data0, [PromoteAllScalars=true]),
+    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Cálculo da Páscoa, Carnaval e Corpus Christi", type text}, {"Ano", Int64.Type}, {"a", Int64.Type}, {"b", Int64.Type}, {"c", Int64.Type}, {"d", Int64.Type}, {"e", Int64.Type}, {"d+e", Int64.Type}, {"Dia", Int64.Type}, {"Mês", type text}, {"Páscoa", type date}, {"Carnaval", type date}, {"Corpus Christi", type date}}),
+
+
+    // Páscoa
+    Pascoa1 = #"Changed Type",
+    Pascoa2 = Table.SelectColumns(Pascoa1,{"Páscoa"}),
+    Pascoa3 = Table.AddColumn(Pascoa2, "Evento", each "Páscoa"),
+    Pascoa4 = Table.RenameColumns(Pascoa3,{{"Páscoa", "Data"}}),
+    //
+    // Carnaval
+    Carnaval1 = #"Changed Type",
+    Carnaval2 = Table.SelectColumns(Carnaval1,{"Carnaval"}),
+    Carnaval3 = Table.AddColumn(Carnaval2, "Evento", each "Carnaval"),
+    Carnaval4 = Table.RenameColumns(Carnaval3,{{"Carnaval", "Data"}}),
+    //
+    // Corpus Christi
+    Corpus_Christi1 = #"Changed Type",
+    Corpus_Christi2 = Table.SelectColumns(Corpus_Christi1,{"Corpus Christi"}),
+    Corpus_Christi3 = Table.AddColumn(Corpus_Christi2, "Evento", each "Corpus Christi"),
+    Corpus_Christi4 = Table.RenameColumns(Corpus_Christi3,{{"Corpus Christi", "Data"}}),
+    //
+    //#"Reordered Columns" = Table.ReorderColumns(#"Removed Other Columns",{"Páscoa", "Carnaval", "Corpus Christi"}),
+    
+    //
+    FeriadosMoveis = Table.Combine({Pascoa4,Carnaval4,Corpus_Christi4})
+
+in
+    FeriadosMoveis
