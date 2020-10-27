@@ -1,0 +1,62 @@
+//DI = Data Início
+//DF = Data Fim
+// fonte: https://www.minhasplanilhas.com.br/criar-tabela-calandario-em-m-no-power-bi/
+
+let dCalendario =(DI as date, DF as date) as table =>
+
+let
+//Contar número de dias entre a data de início e fim
+ Dias = Duration.Days(DF - DI) +1,
+//Criando uma lista de datas
+ Datas = List.Dates(DI, Dias, 
+ #duration(1,0,0,0)),
+//Converter Lista em Tabela
+ ListaparaTabela = Table.FromList(Datas, 
+ Splitter.SplitByNothing(), {"Data"}, null, ExtraValues.Error ),
+AlterarTipo = Table.TransformColumnTypes(ListaparaTabela,{{"Data", type date}}),
+//Criando Colunas adicionais
+// Primeiro dia do Mês
+PrimDiaMes = Table.AddColumn(AlterarTipo, "Prim_Dia_Mes", each Date.StartOfMonth([Data])),
+UltiDiaMes = Table.AddColumn(PrimDiaMes , "Ulti_Dia_Mes", each Date.EndOfMonth([Data])  ),
+ //Coluna Ano
+ Ano = Table.AddColumn(UltiDiaMes, "Ano", 
+ each Date.Year([Data]), Int64.Type),
+//Criando Trimestre
+ Trimestre = Table.AddColumn(Ano , "Trimestre", 
+ each "Q" & Number.ToText(Date.QuarterOfYear([Data])), type text),
+//Número da Semana
+ NumeroSemana = Table.AddColumn(Trimestre , "Numero_Semana", 
+ each Date.WeekOfYear([Data]), Int64.Type),
+//Numero Mês
+ MesNumero = Table.AddColumn(NumeroSemana, "Numero_Mes", 
+ each Date.Month([Data]), Int64.Type),
+ DiaNumero = Table.AddColumn(MesNumero, "Numero_Dia", 
+ each Date.Day([Data]), Int64.Type),
+ DataINT = Table.AddColumn(DiaNumero, "DateInt", each [Ano]*100 + [Numero_Mes], Int64.Type),
+//Nome do Mes
+ NomeMes = Table.AddColumn(DataINT , "Mes", 
+ each Date.ToText([Data],"MMM"), type text),
+ MesMaiusculo = Table.TransformColumns(NomeMes,{{"Mes", Text.Proper, type text}}),
+//Dia da Semana
+ DiaDaSemana = Table.AddColumn(MesMaiusculo , "Dia_Semana", 
+ each Date.ToText([Data],"dddd"), type text),
+ // Dia do Ano
+ DiaAno = Table.AddColumn(DiaDaSemana, "Dia_Ano",
+ each Number.RoundDown(Duration.Days([Data]-#date([Ano],1,1))+1)),
+
+//
+
+SemanaMes = Table.AddColumn(DiaDaSemana, "Semana_Mes",
+ each Date.WeekOfMonth([Data])), 
+
+/* Number.RoundDown(Duration.Days([Data]-#date([Ano],1,1))+1)),
+weekinmonth = 1 + WEEKNUM ( 'Calenda'[Date] )-WEEKNUM( STARTOFMONTH ('Calenda'[Date]))*/
+
+//Mês-Ano
+ MesAno= Table.AddColumn(SemanaMes, "Mes_Ano", 
+ each Text.Combine({Text.PadStart(Text.From([Numero_Mes], "pt-BR"),2,"0"), Text.From([Ano], "pt-BR")}, "-"), type text)
+
+in
+ MesAno
+
+in dCalendario
