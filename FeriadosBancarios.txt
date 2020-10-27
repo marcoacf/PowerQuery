@@ -1,0 +1,8 @@
+let
+    Source = Excel.Workbook(Web.Contents("https://www.anbima.com.br/feriados/arqs/feriados_nacionais.xls"), null, true),
+    Plan2 = Source{[Name="Plan1"]}[Data],
+    #"Promoted Headers" = Table.PromoteHeaders(Plan2, [PromoteAllScalars=true]),
+    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Data", type date}, {"Dia da Semana", type text}, {"Feriado", type text}}),
+    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Dia da Semana"})
+in
+    #"Removed Columns"
