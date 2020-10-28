@@ -1,0 +1,18 @@
+let FeriadoFixo=(Numero_Mes as number, Numero_Dia as number)  as text =>
+
+let
+    /* feriados fixos */
+Evento =( 
+    if      Numero_Mes= 1 and Numero_Dia= 1 then "Confraternização Universal" 
+    else if Numero_Mes= 4 and Numero_Dia=21 then "Tiradentes"
+    else if Numero_Mes= 5 and Numero_Dia= 1 then "Dia do Trabalho"
+    else if Numero_Mes= 9 and Numero_Dia= 7 then "Independência do Brasil"
+    else if Numero_Mes=10 and Numero_Dia=12 then "Nossa Sr.a Aparecida - Padroeira do Brasil"
+    else if Numero_Mes=11 and Numero_Dia= 2 then "Finados"
+    else if Numero_Mes=11 and Numero_Dia=15 then "Proclamação da República"
+    else if Numero_Mes=12 and Numero_Dia=25 then "Natal"
+    else "")
+in
+    Evento
+in 
+    FeriadoFixo
