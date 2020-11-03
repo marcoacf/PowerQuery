@@ -1,0 +1,40 @@
+//pDI = Data Início
+//pDF = Data Fim
+// fonte: https://www.minhasplanilhas.com.br/criar-tabela-calandario-em-m-no-power-bi/
+
+let mMatrizMeses =(pDI as date, pDF as date) as table =>
+
+let
+    /// fonte: https://medium.com/dm-p/generating-rows-by-month-for-date-ranges-in-power-query-9baf62ed8e99
+    DI = pDI,
+    DF = pDF, 
+
+    Source =Table.FromList({[ID_TMP = 1]},Record.FieldValues,{"ID_TMP"}) ,
+
+    AddColNumMeses = Table.AddColumn(Source, "Numero_Meses", 
+                      each (12 * (Date.Year(DF) - Date.Year(DI)))
+                            + (Date.Month(DF) - Date.Month(DI))
+                            + (if Date.Day(DF) < Date.Day(DI) 
+                                then -1 
+                                else 0
+                              )
+                            + 1),
+    AddColList = Table.AddColumn(AddColNumMeses, "Lista_Meses", 
+                each List.Numbers(
+                1,
+                [Numero_Meses]
+              )),
+    ExpandirLista = Table.ExpandListColumn(AddColList, "Lista_Meses"),
+    AddColMes = Table.AddColumn(ExpandirLista, "Prim_Dia_Mes", 
+                                  each Date.StartOfMonth(
+                                Date.AddMonths(
+                                  DF,
+                                  0 - [Numero_Meses] + [Lista_Meses]
+                                )
+)),
+    #"Removed Other Columns" = Table.SelectColumns(AddColMes,{"Prim_Dia_Mes"}) 
+in
+    #"Removed Other Columns"
+    //AddColNumMeses
+
+in mMatrizMeses
