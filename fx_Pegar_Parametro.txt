@@ -1,0 +1,16 @@
+// NomeParametro = Nome do parâmetro tipo texto
+
+let fx_Pegar_Parametro = (NomeParametro as text) =>
+
+let
+    // Tabela excel (Parametros) com 2 Campos (Parametro e Valor) 
+    ParamSource = Excel.CurrentWorkbook(){[Name="Parametros"]}[Content],
+    ParamRow = Table.SelectRows(ParamSource, each ([Parametro] = NomeParametro)),
+    Value=
+    if Table.IsEmpty(ParamRow)=true
+    then null
+    else Record.Field(ParamRow{0},"Valor")
+in
+    Value
+in 
+    fx_Pegar_Parametro
