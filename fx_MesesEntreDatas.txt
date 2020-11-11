@@ -1,0 +1,14 @@
+let fx_MesesEntreDatas = (StartDate as datetime,EndDate as datetime) => 
+    let
+        Source = {
+                    Number.From(#date(Date.Year(StartDate),Date.Month(StartDate),Date.Day(StartDate)))..
+                    Number.From(#date(Date.Year(EndDate)  ,Date.Month(EndDate)  ,Date.Day(EndDate)))
+                },
+        Convert2Table = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+        AlterTipo = Table.TransformColumnTypes(Convert2Table,{{"Column1", type date}}),
+        AddMesAno = Table.AddColumn(AlterTipo, "Month Year", each Date.ToText([Column1],"MMM-yyyy")),
+        AgruparMeses = Table.Group(AddMesAno, {"Month Year"}, {{"Count", each Table.RowCount(_), Int64.Type}}),
+        Contar = Table.RowCount(AgruparMeses)
+    in
+        Contar
+in fx_MesesEntreDatas
