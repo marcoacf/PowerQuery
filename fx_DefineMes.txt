@@ -1,0 +1,25 @@
+/*
+  Garante a grafia pt-br para o nome abreviado do mês
+*/
+let
+    fx_DefineMes = (input) => let
+        values = {
+        {1, "Jan"},
+        {2, "Fev"},
+        {3, "Mar"},
+        {4, "Abr"},
+        {5, "Mai"},
+        {6, "Jun"},
+        {7, "Jul"},
+        {8, "Ago"},
+        {9, "Set"},
+        {10, "Out"},
+        {11, "Nov"},
+        {12, "Dez"},
+        {input, "indefinido"}
+        },
+        Result = List.First(List.Select(values, each _{0}=input)){1}
+    in
+        Result
+in
+    fx_DefineMes
