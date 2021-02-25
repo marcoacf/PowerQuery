@@ -1,0 +1,46 @@
+/*
+----------------------------------------------------------------------------------------------------
+---  Constói uma tabela de datas por mês, relativo ao intervalo de anos (paramêtros de entrada)  ---
+----------------------------------------------------------------------------------------------------
+Dependências:
+    fx_DefineMes - https://github.com/marcoacf/PowerQuery/blob/main/fx_DefineMes.txt
+*/
+let dCalendarioMensal =
+    (AnoInicial, AnoFinal) 
+    as table =>
+
+    let
+        ListaAnos = Table.FromList({AnoInicial..AnoFinal}, Splitter.SplitByNothing(), null,null, ExtraValues.Error),
+        RenomColAno = Table.RenameColumns(ListaAnos,{{"Column1", "Ano"}}),
+        AddMeses = Table.AddColumn(RenomColAno, "MesNr", each {1..12}),
+        MostrarMeses = Table.ExpandListColumn(AddMeses, "MesNr"),
+        CriarDataMes = Table.AddColumn(MostrarMeses, "Mes_Ref", each #date([Ano],[MesNr],1)),
+        TipoDataMesRef = Table.TransformColumnTypes(CriarDataMes,{{"Mes_Ref", type date}}),
+
+        UltiDiaMes = Table.AddColumn(TipoDataMesRef , "Ulti_Dia_Mes", each Date.EndOfMonth([Mes_Ref])  ),
+        
+        //Criando Trimestre
+        Trimestre = Table.AddColumn(UltiDiaMes , "Trimestre", 
+        each "Q" & Number.ToText(Date.QuarterOfYear([Mes_Ref])), type text),
+        //Numero Mês
+        DataINT = Table.AddColumn(Trimestre, "DateInt", each [Ano]*100 + [MesNr], Int64.Type),
+        NomeMes = Table.AddColumn(DataINT , "Mes", 
+        each fx_DefineMes(Date.Month([Mes_Ref])), type text),
+
+        MesMaiusculo = Table.TransformColumns(NomeMes,{{"Mes", Text.Proper, type text}}),
+        //Mês-Ano
+        MesAno= Table.AddColumn(MesMaiusculo, "MesNr_Ano", 
+        each Text.Combine({Text.PadStart(Text.From([MesNr], "pt-BR"),2,"0"), Text.From([Ano], "pt-BR")}, "-"), type text),
+
+        MesAno2= Table.AddColumn(MesAno, "Mes_Ano", 
+        each Text.Combine({[Mes], Text.End(Text.From([Ano], "pt-BR"),2)}, "/"), type text),
+
+        /* Reordenar Colunas */
+        ReordenarCols = Table.ReorderColumns(MesAno2,{"Mes_Ref", "Ulti_Dia_Mes", "Ano", "MesNr", "Trimestre", "DateInt", "Mes", "MesNr_Ano", "Mes_Ano"}),
+
+        Pronto=ReordenarCols
+
+    in
+        Pronto
+in
+    dCalendarioMensal
