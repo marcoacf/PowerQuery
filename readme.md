@@ -1,8 +1,8 @@
 # Dicas
 
 1. Artigos:
-  * [raullesteves.medium.com] https://raullesteves.medium.com/github-como-fazer-um-readme-md-bonit%C3%A3o-c85c8f154f8
-  * [kdnuggets.com] https://www.kdnuggets.com/2021/04/how-organize-your-data-science-project-2021.html
+  * [Como fazer um README.md] https://raullesteves.medium.com/github-como-fazer-um-readme-md-bonit%C3%A3o-c85c8f154f8
+  * [Como organizar um projeto] https://www.kdnuggets.com/2021/04/how-organize-your-data-science-project-2021.html
 
 
 2. Como fazer:
