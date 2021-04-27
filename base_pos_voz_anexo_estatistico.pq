@@ -1,12 +1,14 @@
-/*
+
 #  Criar uma tabela usando o anexo estatístico
   
-##  preencher céluas vazias da 1ª linha com "x"
+  preencher céluas vazias da 1ª linha com "x"
   
-##  Usar 
+  Usar os textos abaixo na 1ª coluna
   * Base - Pós - Puro - Voz
   * Base - Pós - Controle - Voz
-*/
+  
+  Converter o intervalo em table1
+
 ```
 let
     Source = Excel.CurrentWorkbook(){[Name="Table1"]}[Content],
