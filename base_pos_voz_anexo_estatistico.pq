@@ -7,7 +7,7 @@
   * Base - Pós - Puro - Voz
   * Base - Pós - Controle - Voz
 */
-...
+```
 let
     Source = Excel.CurrentWorkbook(){[Name="Table1"]}[Content],
     Filtro = Table.SelectRows(Source, each ([x] = "Base - Pós - Controle - Voz" or [x] = "Base - Pós - Puro - Voz")),
@@ -19,4 +19,4 @@ let
     AlterTipo = Table.TransformColumnTypes(Renomear,{{"Valor", type number},{"Mes", type date}})
 in
     AlterTipo
-...
+```
