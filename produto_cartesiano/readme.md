@@ -13,10 +13,10 @@ Suponha que temos as tabelas A e B:
 
 Tabela A
 
-|ID|	Nome|
-+--|---+
-|1|	Ana|
-|2|	Bruno|
+|ID|Nome|
+|--|---|
+|1|Ana|
+|2|Bruno|
 Tabela B
 
 ID	Cidade
