@@ -34,3 +34,29 @@ O produto cartesiano A×B será:
 
 ### Considerações:
 Tamanho dos resultados: O produto cartesiano pode gerar tabelas muito grandes se as tabelas originais tiverem muitas linhas. É importante usá-lo com cuidado.
+
+### Exemplo em Linguagem M:
+Se você tiver as tabelas A e B, o código M para o produto cartesiano será algo como:
+```m
+let
+    // Passo 1: Criar Tabela A
+    TabelaA = Table.FromRecords({
+        [ID_A = 1, Nome = "Ana"],
+        [ID_A = 2, Nome = "Bruno"]
+    }),
+    
+    // Passo 2: Criar Tabela B
+    TabelaB = Table.FromRecords({
+        [ID_B = 1, Cidade = "São Paulo"],
+        [ID_B = 2, Cidade = "Rio de Janeiro"]
+    }),
+    
+    // Passo 3: Adicionar Coluna Personalizada com TabelaB
+    AdicionarColuna = Table.AddColumn(TabelaA, "TabelaB", each TabelaB),
+    
+    // Passo 4: Expandir a TabelaB
+    ProdutoCartesiano = Table.ExpandTableColumn(AdicionarColuna, "TabelaB", {"ID_B", "Cidade"})
+in
+    ProdutoCartesiano
+```
+
