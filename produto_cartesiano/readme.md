@@ -23,16 +23,14 @@ Suponha que temos as tabelas A e B:
 |1|	São Paulo|
 |2|	Rio de Janeiro|
 
-O produto cartesiano 
-𝐴
-×
-𝐵
-A×B será:
+O produto cartesiano A×B será:
 
-ID_A	Nome	ID_B	Cidade
-1	Ana	1	São Paulo
-1	Ana	2	Rio de Janeiro
-2	Bruno	1	São Paulo
-2	Bruno	2	Rio de Janeiro
-Considerações:
+|ID_A|Nome|ID_B|Cidade|
+|----|----|----|------|
+|1|	Ana|1|São Paulo|
+|1|	Ana|2|Rio de Janeiro|
+|2|	Bruno|1|São Paulo|
+|2|	Bruno|2|Rio de Janeiro|
+
+### Considerações:
 Tamanho dos resultados: O produto cartesiano pode gerar tabelas muito grandes se as tabelas originais tiverem muitas linhas. É importante usá-lo com cuidado.
