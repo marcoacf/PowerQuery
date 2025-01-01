@@ -17,6 +17,7 @@ Tabela A
 |--|---|
 |1|Ana|
 |2|Bruno|
+
 Tabela B
 
 ID	Cidade
