@@ -11,18 +11,18 @@ Cada linha da tabela A será combinada com cada linha da tabela B.
 ### Exemplo:
 Suponha que temos as tabelas A e B:
 
-Tabela A
-
+#### Tabela A
 |ID|Nome|
 |--|---|
 |1|Ana|
 |2|Bruno|
 
-Tabela B
+#### Tabela B
+|ID|Cidade|
+|--|---|
+|1|	São Paulo|
+|2|	Rio de Janeiro|
 
-ID	Cidade
-1	São Paulo
-2	Rio de Janeiro
 O produto cartesiano 
 𝐴
 ×
