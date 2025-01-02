@@ -10,6 +10,7 @@ Evento =(
     else if Numero_Mes=10 and Numero_Dia=12 then "Nossa Sr.a Aparecida - Padroeira do Brasil"
     else if Numero_Mes=11 and Numero_Dia= 2 then "Finados"
     else if Numero_Mes=11 and Numero_Dia=15 then "Proclamação da República"
+    else if Numero_Mes=11 and Numero_Dia=20 then "Dia Nacional de Zumbi e da Consciência Negra"
     else if Numero_Mes=12 and Numero_Dia=25 then "Natal"
     else "")
 in
